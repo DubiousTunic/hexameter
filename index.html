@@ -12,70 +12,31 @@ the line consists of either one dactyl or one spondee, which is a foot composed 
 long syllables (— —). There are six (ἕξ) of these units (“feet”) in each line. An exception
 is the final foot, which is always two syllables, the first long and the second either long
 or short (represented schematically by x). !-->
-			<button id="homer">Homer</button><button id="shakespeare">Shakespeare</button>
+			<button id="homer">Homer</button>
 			<script>
 				var audioContext;
 
-				var shakespearePlaying = false;
-				var homerPlaying = false;
+				var song;
 
 				document.addEventListener('click', function (event) {
 
 					// If the clicked element doesn't have the right selector, bail
-					if (event.target.id !== 'shakespeare' && event.target.id !== "homer") return;
+					if (event.target.id !== "homer") return;
 
 					audioContext = AudioContext && new AudioContext();
-
-					if(event.target.id === 'shakespeare'){
-						shakespearePlaying = !shakespearePlaying;
-						if(poem){
-							clearInterval(poem);
-						}
-						else{
-							poem = setInterval(); //iambic pentameter
-						}
-						homer = false;
+				
+					if(song){
+						clearInterval(song);
 					}
-					else if(event.target.id === 'homer'){
-						if(song){
-							clearInterval(song);
-						}
-						else{
-							homer(6);
-							song = setInterval("homer(6)", 5000) //dactyllic hexameter
-						}
-						shakespeare = false;
+					else{
+						homer(6);
+						song = setInterval("homer(6)", 7777) //dactyllic hexameter
 					}
-
+					
 					// Don't follow the link
-					event.preventDefault();
+					event.preventDefault();					
 
-					
-
-
-					
-
-					// Log the clicked element in the console
-					console.log(event.target.id);
-
-				}, false);
-
-				/*function homer(){		
-						//hex (6 units)	
-				//		console.log("HERE");
-						homerInterval = setInterval(unit(6), 1200) //generate a line	
-
-										
-				//}*/
-
-				function testFunction(){
-					
-				}
-
-				function shakespeare(){
-					//if(shakespeare)
-						//shakespeare					
-				}		
+				}, false);				
 
 				function homer(count){					
 					fetch('https://qrng.anu.edu.au/API/jsonI.php?length=1&type=uint8')
@@ -96,66 +57,55 @@ or short (represented schematically by x). !-->
 					    }
 					  });			  			
 				}
-
-				var song = null;
-				var poem = null;		
-
-				/*function close(poetry){
-					
-				}*/
-
+			
 				//roll for dactyl or spondee
 				//hexadecimal roll?
 
 				function dactyl(cb){	
 					console.log("dac");								
-					beep(555,"sawtooth",function() {
+					beep(777,"triangle",function() {
 				        setTimeout(function(){
-				        	beep(240, "square", function(){
+				        	beep(218, "square", function(){
 				        		setTimeout(function(){
-				        			beep(240, "square", function(){
-				        				setTimeout(cb, 333);
+				        			beep(333, "square", function(){
+				        				setTimeout(cb, 444);
 				        			})
-				        		}, 333)
+				        		}, 444)
 				        	})
-				        }, 600)				    
+				        }, 1000)				    
 					})
 					
 				}
 
-				function unit(){
-					//roll for dactyl or spondee
-				}
-
 				function spondee(cb){
 					console.log("spon");
-					beep(555,"sawtooth", function(){
+					beep(666,"sawtooth", function(){
 						setTimeout(function(){
-							beep(555,"sawtooth",function(){
-								setTimeout(cb, 600);
+							beep(777,"triangle",function(){
+								setTimeout(cb, 666);
 							})
-						}, 600);
+						}, 800);
 					})
 				}
 
 				function x(cb){
 					//first long second long or short
 					console.log("x");
-					beep(555,"triangle",function(){
+					beep(777,"sawtooth",function(){
 
 						setTimeout(function(){
 							if(Math.floor(Math.random() * 2 === 0)){
 								//short
-								beep(240, "square", function(){
+								beep(228, "sine", function(){
 									setTimeout(cb, 323);
 								})
 							}
 							else{
-								beep(555, "triangle", function(){
-									setTimeout(cb, 666);
+								beep(777, "triangle", function(){
+									setTimeout(cb, 778);
 								})
 							}
-						}, 600)					
+						}, 999)					
 
 					})							
 
