@@ -1,0 +1,203 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<header>
+
+		</header>
+		<div>
+			<!--The Homeric Hexameter is called the dactylic hexameter because the basic unit is a
+dactyl, which is one long syllable followed by two short syllables (— ‿ ‿). Each unit in
+the line consists of either one dactyl or one spondee, which is a foot composed of two
+long syllables (— —). There are six (ἕξ) of these units (“feet”) in each line. An exception
+is the final foot, which is always two syllables, the first long and the second either long
+or short (represented schematically by x). !-->
+			<button id="homer">Homer</button><button id="shakespeare">Shakespeare</button>
+			<script>
+				var audioContext;
+
+				var shakespearePlaying = false;
+				var homerPlaying = false;
+
+				document.addEventListener('click', function (event) {
+
+					// If the clicked element doesn't have the right selector, bail
+					if (event.target.id !== 'shakespeare' && event.target.id !== "homer") return;
+
+					audioContext = AudioContext && new AudioContext();
+
+					if(event.target.id === 'shakespeare'){
+						shakespearePlaying = !shakespearePlaying;
+						if(poem){
+							clearInterval(poem);
+						}
+						else{
+							poem = setInterval(); //iambic pentameter
+						}
+						homer = false;
+					}
+					else if(event.target.id === 'homer'){
+						if(song){
+							clearInterval(song);
+						}
+						else{
+							homer(6);
+							song = setInterval("homer(6)", 5000) //dactyllic hexameter
+						}
+						shakespeare = false;
+					}
+
+					// Don't follow the link
+					event.preventDefault();
+
+					
+
+
+					
+
+					// Log the clicked element in the console
+					console.log(event.target.id);
+
+				}, false);
+
+				/*function homer(){		
+						//hex (6 units)	
+				//		console.log("HERE");
+						homerInterval = setInterval(unit(6), 1200) //generate a line	
+
+										
+				//}*/
+
+				function testFunction(){
+					
+				}
+
+				function shakespeare(){
+					//if(shakespeare)
+						//shakespeare					
+				}		
+
+				function homer(count){					
+					fetch('https://qrng.anu.edu.au/API/jsonI.php?length=1&type=uint8')
+					  .then(function(response) {
+					    return response.json();
+					  })
+					  .then(function(myJson) {
+					    if(count === 1){
+					    	x(function(){
+					    		console.log("\n");
+					    	});
+					    }
+					    else if(myJson.data[0] < 170){
+					    	dactyl(homer(count-1));
+					    }
+					    else{
+					    	spondee(homer(count-1));
+					    }
+					  });			  			
+				}
+
+				var song = null;
+				var poem = null;		
+
+				/*function close(poetry){
+					
+				}*/
+
+				//roll for dactyl or spondee
+				//hexadecimal roll?
+
+				function dactyl(cb){	
+					console.log("dac");								
+					beep(555,"sawtooth",function() {
+				        setTimeout(function(){
+				        	beep(240, "square", function(){
+				        		setTimeout(function(){
+				        			beep(240, "square", function(){
+				        				setTimeout(cb, 333);
+				        			})
+				        		}, 333)
+				        	})
+				        }, 600)				    
+					})
+					
+				}
+
+				function unit(){
+					//roll for dactyl or spondee
+				}
+
+				function spondee(cb){
+					console.log("spon");
+					beep(555,"sawtooth", function(){
+						setTimeout(function(){
+							beep(555,"sawtooth",function(){
+								setTimeout(cb, 600);
+							})
+						}, 600);
+					})
+				}
+
+				function x(cb){
+					//first long second long or short
+					console.log("x");
+					beep(555,"triangle",function(){
+
+						setTimeout(function(){
+							if(Math.floor(Math.random() * 2 === 0)){
+								//short
+								beep(240, "square", function(){
+									setTimeout(cb, 323);
+								})
+							}
+							else{
+								beep(555, "triangle", function(){
+									setTimeout(cb, 666);
+								})
+							}
+						}, 600)					
+
+					})							
+
+				}
+
+				function beep(duration, type, finishedCallback){//amp:0..100, freq in Hz, ms
+				  
+			
+
+				    duration = +duration;
+
+				    // Only 0-4 are valid types.
+				    //type = (type % 5) || "";
+
+				    if (typeof finishedCallback != "function") {
+				        finishedCallback = function() {};   
+				    }
+
+				    if (! window.AudioContext) {
+					    if (! window.webkitAudioContext) {
+					        bad_browser();
+					        return;
+					    }
+					    window.AudioContext = window.webkitAudioContext;
+					}
+
+					var ctx = new AudioContext();
+				    var osc = ctx.createOscillator();
+
+				    osc.type = type;
+
+				    osc.connect(ctx.destination);
+				    osc.start();
+
+				    setTimeout(function() {
+				        osc.stop(0);
+				        finishedCallback();
+				    }, duration);
+				}
+			</script>
+		</div>
+		<footer>			
+		</footer>
+	</body>
+</html>
